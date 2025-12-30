@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./App.css";
 
 const initialItems = [
@@ -21,6 +22,7 @@ export default function App() {
 
 
 
+
 function Logo() {
   return <h1>🌴 Far Away 👜</h1>;
 }
@@ -28,23 +30,48 @@ function Logo() {
 
 
 
+
 function Form() {
- function handleSubmit(e) {
-  e.preventDefault()
- }
+  const [description, setDescription] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!description) return;
+
+    const newItem = {
+      description,
+      quantity,
+      packed: false,
+      id: Date.now(),
+    };
+    console.log(newItem);
+    setDescription("");
+    setQuantity(1);
+  }
 
   return (
     <>
       <form onSubmit={handleSubmit} className="add-form">
         <h3>What do you need for your 😍 trip?</h3>
-        <select name="" id="">
+        <select
+          name=""
+          id=""
+          value={quantity}
+          onChange={(e) => setQuantity(Number(e.target.value))}
+        >
           {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
             <option key={num} value={num}>
               {num}
             </option>
           ))}
         </select>
-        <input type="text" placeholder="Item...." />
+        <input
+          type="text"
+          placeholder="Item...."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
         <button>Add</button>
       </form>
     </>
@@ -73,6 +100,7 @@ function PackingList() {
 
 
 
+
 function Item({ item }) {
   return (
     <>
@@ -85,6 +113,7 @@ function Item({ item }) {
     </>
   );
 }
+
 
 
 
